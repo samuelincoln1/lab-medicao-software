@@ -28,7 +28,7 @@ Os gráficos são salvos na pasta `charts/`.
 ## Pré-requisitos
 
 - Python 3.10+
-- Um [Personal Access Token do GitHub](https://github.com/settings/tokens) com escopo `public_repo`
+- Um [Personal Access Token do GitHub](https://github.com/settings/personal-access-tokens) com escopo `public_repo`
 
 ## Instalação
 
