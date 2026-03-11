@@ -1,12 +1,16 @@
+import argparse
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
-CSV_PATH = os.path.join(os.path.dirname(__file__), "results.csv")
-OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "charts")
+DEFAULT_CSV = "results.csv"
+DEFAULT_OUTPUT_DIR = "charts"
 
 TOP_LANGUAGES = ["JavaScript", "Python", "TypeScript", "Java", "C++", "C", "Go", "Rust", "PHP", "Ruby"]
+
+CSV_PATH: str = ""
+OUTPUT_DIR: str = ""
 
 
 def load_data() -> pd.DataFrame:
@@ -173,6 +177,16 @@ def rq07(df: pd.DataFrame) -> None:
 
 
 def main() -> None:
+    global CSV_PATH, OUTPUT_DIR
+
+    parser = argparse.ArgumentParser(description="Analisa repositórios coletados do GitHub.")
+    parser.add_argument("--input", type=str, default=DEFAULT_CSV, help=f"CSV de entrada (padrão: {DEFAULT_CSV})")
+    parser.add_argument("--output-dir", type=str, default=DEFAULT_OUTPUT_DIR, help=f"Pasta de saída dos gráficos (padrão: {DEFAULT_OUTPUT_DIR})")
+    args = parser.parse_args()
+
+    CSV_PATH = os.path.join(os.path.dirname(__file__), args.input)
+    OUTPUT_DIR = os.path.join(os.path.dirname(__file__), args.output_dir)
+
     print(f"Carregando dados de: {CSV_PATH}")
     df = load_data()
     print(f"Total de repositórios: {len(df)}")
@@ -185,7 +199,7 @@ def main() -> None:
     rq06(df)
     rq07(df)
 
-    print("\nAnálise concluída! Gráficos salvos na pasta 'charts/'.")
+    print(f"\nAnálise concluída! Gráficos salvos na pasta '{OUTPUT_DIR}'.")
 
 
 if __name__ == "__main__":
