@@ -1,3 +1,4 @@
+import argparse
 import csv
 import requests
 import json
@@ -10,7 +11,8 @@ load_dotenv()
 
 GITHUB_API_URL = "https://api.github.com/graphql"
 PAGE_SIZE = 10
-TARGET = 100
+DEFAULT_TARGET = 100
+DEFAULT_OUTPUT = "results.csv"
 
 QUERY = """
 query($cursor: String) {
@@ -174,14 +176,22 @@ def save_csv(repositories: list[dict], filepath: str) -> None:
 
 
 def main() -> None:
-    print(f"Buscando os {TARGET} repositórios com mais estrelas no GitHub ({PAGE_SIZE} por página)...\n")
+    parser = argparse.ArgumentParser(description="Coleta repositórios populares do GitHub.")
+    parser.add_argument("--target", type=int, default=DEFAULT_TARGET, help=f"Número de repositórios a coletar (padrão: {DEFAULT_TARGET})")
+    parser.add_argument("--output", type=str, default=DEFAULT_OUTPUT, help=f"Nome do arquivo CSV de saída (padrão: {DEFAULT_OUTPUT})")
+    args = parser.parse_args()
+
+    target = args.target
+    output_path = os.path.join(os.path.dirname(__file__), args.output)
+
+    print(f"Buscando os {target} repositórios com mais estrelas no GitHub ({PAGE_SIZE} por página)...\n")
 
     repositories = []
     cursor = None
     page = 1
 
-    while len(repositories) < TARGET:
-        print(f"  Página {page} — coletados até agora: {len(repositories)}/{TARGET}")
+    while len(repositories) < target:
+        print(f"  Página {page} — coletados até agora: {len(repositories)}/{target}")
 
         data = run_query({"cursor": cursor})
         search = data["data"]["search"]
@@ -189,7 +199,7 @@ def main() -> None:
 
         for node in nodes:
             repositories.append(process_repository(node))
-            if len(repositories) >= TARGET:
+            if len(repositories) >= target:
                 break
 
         page_info = search["pageInfo"]
@@ -202,7 +212,7 @@ def main() -> None:
 
     print(f"\nTotal de repositórios coletados: {len(repositories)}\n")
     print_results(repositories)
-    save_csv(repositories, os.path.join(os.path.dirname(__file__), "results.csv"))
+    save_csv(repositories, output_path)
     print("\nConsulta concluída com sucesso!")
 
 
