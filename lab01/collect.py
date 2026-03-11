@@ -1,3 +1,4 @@
+import csv
 import requests
 import json
 import os
@@ -159,6 +160,19 @@ def print_results(repositories: list[dict]) -> None:
         )
 
 
+def save_csv(repositories: list[dict], filepath: str) -> None:
+    fieldnames = [
+        "name", "stars", "created_at", "age_days", "updated_at",
+        "days_since_update", "language", "merged_prs", "releases",
+        "closed_issues", "open_issues", "total_issues", "issue_close_ratio",
+    ]
+    with open(filepath, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(repositories)
+    print(f"Dados exportados para: {filepath}")
+
+
 def main() -> None:
     print(f"Buscando os {TARGET} repositórios com mais estrelas no GitHub ({PAGE_SIZE} por página)...\n")
 
@@ -188,6 +202,7 @@ def main() -> None:
 
     print(f"\nTotal de repositórios coletados: {len(repositories)}\n")
     print_results(repositories)
+    save_csv(repositories, os.path.join(os.path.dirname(__file__), "results.csv"))
     print("\nConsulta concluída com sucesso!")
 
 
