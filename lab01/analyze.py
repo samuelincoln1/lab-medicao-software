@@ -92,18 +92,18 @@ def rq03(df: pd.DataFrame) -> None:
 # RQ 04 — Sistemas populares são atualizados com frequência?
 # ────────────────────────────────────────────────────────────
 def rq04(df: pd.DataFrame) -> None:
-    print("\n── RQ 04: Tempo desde última atualização ──")
-    median_upd = df["days_since_update"].median()
+    print("\n── RQ 04: Tempo desde último push ──")
+    median_upd = df["days_since_push"].median()
     print(f"  Mediana: {median_upd:.0f} dias")
-    print(f"  Mínimo: {df['days_since_update'].min()} dias")
-    print(f"  Máximo: {df['days_since_update'].max()} dias")
+    print(f"  Mínimo: {df['days_since_push'].min()} dias")
+    print(f"  Máximo: {df['days_since_push'].max()} dias")
 
     fig, ax = plt.subplots(figsize=(8, 4))
-    ax.hist(df["days_since_update"], bins=30, color="#C44E52", edgecolor="white")
+    ax.hist(df["days_since_push"], bins=30, color="#C44E52", edgecolor="white")
     ax.axvline(median_upd, color="blue", linestyle="--", label=f"Mediana: {median_upd:.0f} dias")
-    ax.set_xlabel("Dias desde a última atualização")
+    ax.set_xlabel("Dias desde o último push")
     ax.set_ylabel("Quantidade de repositórios")
-    ax.set_title("RQ04 — Tempo desde última atualização")
+    ax.set_title("RQ04 — Tempo desde o último push")
     ax.legend()
     save_fig("rq04_atualizacao.png")
 

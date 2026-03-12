@@ -25,7 +25,7 @@ query($cursor: String) {
       ... on Repository {
         nameWithOwner
         createdAt
-        updatedAt
+        pushedAt
         stargazerCount
         primaryLanguage {
           name
@@ -92,10 +92,10 @@ def process_repository(node: dict) -> dict:
     now = datetime.now(timezone.utc)
 
     created_at = datetime.fromisoformat(node["createdAt"].replace("Z", "+00:00"))
-    updated_at = datetime.fromisoformat(node["updatedAt"].replace("Z", "+00:00"))
+    pushed_at = datetime.fromisoformat(node["pushedAt"].replace("Z", "+00:00"))
 
     age_days = (now - created_at).days
-    days_since_update = (now - updated_at).days
+    days_since_push = (now - pushed_at).days
 
     closed_issues = node["closedIssues"]["totalCount"]
     open_issues = node["openIssues"]["totalCount"]
@@ -107,8 +107,8 @@ def process_repository(node: dict) -> dict:
         "stars": node["stargazerCount"],
         "created_at": node["createdAt"],
         "age_days": age_days,
-        "updated_at": node["updatedAt"],
-        "days_since_update": days_since_update,
+        "pushed_at": node["pushedAt"],
+        "days_since_push": days_since_push,
         "language": node["primaryLanguage"]["name"] if node["primaryLanguage"] else "N/A",
         "merged_prs": node["pullRequests"]["totalCount"],
         "releases": node["releases"]["totalCount"],
@@ -154,7 +154,7 @@ def print_results(repositories: list[dict]) -> None:
             f"{r['name']:<{col['name']}} "
             f"{r['stars']:>{col['stars']},} "
             f"{r['age_days']:>{col['age']}} "
-            f"{r['days_since_update']:>{col['update']}} "
+            f"{r['days_since_push']:>{col['update']}} "
             f"{r['language']:<{col['lang']}} "
             f"{r['merged_prs']:>{col['prs']},} "
             f"{r['releases']:>{col['rel']}} "
@@ -164,8 +164,8 @@ def print_results(repositories: list[dict]) -> None:
 
 def save_csv(repositories: list[dict], filepath: str) -> None:
     fieldnames = [
-        "name", "stars", "created_at", "age_days", "updated_at",
-        "days_since_update", "language", "merged_prs", "releases",
+        "name", "stars", "created_at", "age_days", "pushed_at",
+        "days_since_push", "language", "merged_prs", "releases",
         "closed_issues", "open_issues", "total_issues", "issue_close_ratio",
     ]
     with open(filepath, "w", newline="", encoding="utf-8") as f:
