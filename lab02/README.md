@@ -128,9 +128,3 @@ lab02/
 ├── metrics_sample.csv                  # Métricas de 1 repositório (gerado pelo pipeline.py --limit 1)
 └── metrics.csv                         # Métricas de todos os repos (gerado pelo pipeline.py)
 ```
-
-## Ferramenta CK
-
-A ferramenta [CK](https://github.com/mauricioaniche/ck) analisa estaticamente código Java e calcula métricas por classe. O JAR deve ser baixado manualmente em:
-
-<https://github.com/mauricioaniche/ck/releases>
