@@ -21,13 +21,8 @@ lab-medicao-software/
 └── lab02/    # Lab 02 — Qualidade de repositórios Java
 ```
 
-## Autor
-
-**Samuel Lincoln de Oliveira Gomes**
-Cloud Engineer | AWS Certified Solutions Architect
-
-🔗 [samuellincoln.com](https://samuellincoln.com)
-
 ---
 
-&copy; 2026 Samuel Lincoln de Oliveira Gomes. Projeto acadêmico desenvolvido para a disciplina de Laboratório de Experimentação e Medição de Software — PUC Minas.
+Desenvolvido por **[Samuel Lincoln de Oliveira Gomes](https://samuellincoln.com)** — Cloud Engineer | AWS Certified Solutions Architect
+
+Projeto acadêmico — Laboratório de Experimentação e Medição de Software, PUC Minas &copy; 2026
