@@ -66,13 +66,13 @@ python collect.py --target 1000 --output repositories.csv
 
 ---
 
-### Sprint 1 — Passo 2: Gerar o CK JAR
+### Sprint 1 — Passo 2: CK JAR
 
-O `pipeline.py` **não** baixa o JAR automaticamente. É necessário compilá-lo a partir do código-fonte.
+O JAR do CK já está disponível no repositório (`ck-0.7.0-jar-with-dependencies.jar`), não sendo necessário nenhum passo adicional.
 
-**Pré-requisito:** [Maven](https://maven.apache.org/download.cgi) instalado.
+Caso queira gerar uma versão diferente, compile a partir do código-fonte (requer [Maven](https://maven.apache.org/download.cgi)):
 
-1. Acesse <https://github.com/mauricioaniche/ck/tags> e baixe o código-fonte da tag mais recente
+1. Acesse <https://github.com/mauricioaniche/ck/tags> e baixe o código-fonte da tag desejada
 2. Extraia o `.zip` e, dentro da pasta extraída, execute:
 
 ```bash
@@ -80,7 +80,7 @@ mvn package -DskipTests
 ```
 
 3. O JAR gerado estará em `target/ck-X.X.X-SNAPSHOT-jar-with-dependencies.jar`
-4. Copie-o para a pasta `lab02/`
+4. Copie-o para a pasta `lab02/` e ajuste o argumento `--ck-jar` nos comandos abaixo
 
 ---
 
